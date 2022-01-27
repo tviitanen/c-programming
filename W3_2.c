@@ -15,32 +15,42 @@ int valikko() {
 }
 
 void lisaaNimi(char *tiedosto_nimi) {
-    char nimi;
-    printf("%s", tiedosto_nimi);
+    char nimi[50];
     printf("Anna lisättävä nimi: ");
-    scanf("%s", &nimi);
+    scanf("%s", nimi);
     FILE *tiedosto;
-    if ((tiedosto = fopen(tiedosto_nimi, "w")) == NULL) {
-        perror("Tiedoston avaaminen epäonnistui, lopetetaan: ");
-        exit(1);
+    if ((tiedosto = fopen(tiedosto_nimi, "a")) == NULL) {
+        perror("Tiedoston avaaminen epäonnistui, lopetetaan");
+        exit(0);
     }
     fprintf(tiedosto, "%s\n", nimi );
     fclose(tiedosto);
-    printf("Nimi lisätty tiedostoon.");
+    printf("Nimi lisätty tiedostoon.\n\n");
     return(0);
 }
 
-void lueNimet(char tiedosto) {
-
+void lueNimet(char *tiedosto_nimi) {
+    char rivi[52];
+    FILE *tiedosto;
+    if ((tiedosto = fopen(tiedosto_nimi, "r")) == NULL) {
+        perror("Tiedoston avaaminen epäonnistui, lopetetaan");
+        exit(0);
+    }
+    printf("Tiedostossa olevat nimet:\n");
+    while (fgets(rivi, 52, tiedosto) != NULL) {
+        printf("%s", rivi);
+    }
+    fclose(tiedosto);
+    printf("Tiedosto luettu ja tulostettu.\n\n");
     return(0);
 }
 int main(void) {
-    char tiedosto_nimi;
+    char tiedosto_nimi[50];
     int jatka = 1, valinta;
 
     printf("Tämä ohjelma lisää nimiä tiedostoon ja lukee ne.\n");
     printf("Anna käsiteltävän tiedoston nimi: ");
-    scanf("%s", &tiedosto_nimi);
+    scanf("%s", tiedosto_nimi);
 
     do {
         valinta = valikko();
@@ -51,9 +61,8 @@ int main(void) {
             lueNimet(tiedosto_nimi);
         }
         else if (valinta == 0) {
-            printf("\nOhjelman lopetus.\n");
+            printf("Kiitos ohjelman käytöstä.\n");
         }
-
         else {
             printf("\nTuntematon valinta.\n");    
         }
