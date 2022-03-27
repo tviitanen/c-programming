@@ -2,27 +2,28 @@
 /* CT60A2500 C-ohjelmoinnin perusteet
  * Tekijä: Teemu Viitanen
  * Opiskelijanumero: 00456573
- * Päivämäärä: 1.3.2022
+ * Päivämäärä: 26.3.2022
  * Palauttamalla tämän työn arvioitavaksi vakuutan, että
  * 1) Olen itse kirjoittanut kaiken tässä tiedostossa olevan koodin
  * 2) En ole antanut tätä koodia kenenkään muun käyttöön
  *
  * Kurssin oppimateriaalien lisäksi työhön ovat vaikuttaneet seuraavat
  * lähteet ja henkilöt, ja se näkyy koodissa seuraavissa kohdissa:
- * - 
- * - 
+ * -
+ * -
  */
 /*************************************************************************/
 /* Tavoitetaso, HTPerusKirjasto.h */
 
 #ifndef HTPerusKirjasto
 #define HTPerusKirjasto
-
 #define MAXLEN 50
+#include <time.h>
 
 // Tietue luettaville riveille
-typedef struct lista{
-    char pvm[MAXLEN];
+typedef struct lista
+{
+    struct tm pvm;
     int viikko;
     int aurinko;
     int kulutus;
@@ -35,24 +36,27 @@ typedef struct lista{
 } LISTA;
 
 // Tulostietue
-typedef struct tulokset{
+typedef struct tulokset
+{
     int lkm;
     long int kulutus;
     double keskiarvo;
     int maxKulutus;
-    char maxAika[MAXLEN];
+    struct tm maxAika;
     int minKulutus;
-    char minAika[MAXLEN];
+    struct tm minAika;
 } TULOKSET;
 
 // Kuukausittaiset tuotannot
-typedef struct kkTuotanto{
+typedef struct kkTuotanto
+{
     int kuukausi;
     long int tuotanto;
 } KKTUOTANTO;
 
 // Viikottaiset tuotannot
-typedef struct vkTuotanto{
+typedef struct vkTuotanto
+{
     int viikko;
     int aurinko;
     int tuuli;
@@ -61,7 +65,6 @@ typedef struct vkTuotanto{
     int yht;
     int lampo;
 } VKTUOTANTO;
-
 
 // HTPerusKirjasto.c:
 LISTA *lueTiedosto(LISTA *pAlku, char *tiedostoNimi);
@@ -76,4 +79,4 @@ void tallennaViikko(VKTUOTANTO *pMatriisi, char *tiedostoNimi);
 
 #endif
 
-    /* eof */
+/* eof */
